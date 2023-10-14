@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 2</title>
+</head>
+
+<style>
+   .book-form {
+      display: grid;
+      justify-content: center;
+      padding: 3.75rem 1.875rem;
+      gap: 1.25rem 0;
+   }
+
+   .business-bg {
+      background: url('img/task2/image01.jpg') 0 0 / cover no-repeat;
+   }
+
+   .economy-bg {
+      background: url('img/task2/image02.png') 0 0 / cover no-repeat;
+   }
+
+   .select {
+      padding: 0.625rem 1.25rem;
+      max-width: 18.75rem;
+   }
+</style>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <div :class="['book-form', formBackground]">
+               Оберіть квитки на літак:
+               <select v-model="slectedClass" class="select">
+                  <option value="економ" selected>Економ</option>
+                  <option value="бізнес">Бізнес</option>
+               </select>
+               <template v-if="isBusinessClass">
+                  <select v-model="selectedBusinessBenefit" class="select">
+                     <option value="газети" selected>Газети</option>
+                     <option value="коньяк">Коньяк</option>
+                  </select>
+               </template>
+               <template v-else>
+                  <select v-model="selectedEconomyBenefit" class="select">
+                     <option value="пиво" selected>Пиво</option>
+                     <option value="чіпси">Чіпси</option>
+                  </select>
+               </template>
+               <template v-if="isCognac">
+                  <select v-model="selectedBusinessSnack" class="select">
+                     <option value="так" selected>Так</option>
+                     <option value="ні">Ні</option>
+                  </select>
+               </template>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+         data() {
+            return {
+               slectedClass: 'економ',
+               selectedBusinessBenefit: 'газети',
+               selectedEconomyBenefit: 'пиво',
+               selectedBusinessSnack: 'так'
+            }
+         },
+
+         computed: {
+            isBusinessClass() {
+               return this.slectedClass === 'бізнес'
+            },
+
+            isCognac() {
+               return this.selectedBusinessBenefit === 'коньяк'
+            },
+
+            formBackground() {
+               return this.isBusinessClass ? 'business-bg' : 'economy-bg'
+            }
+         }
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 1</title>
+</head>
+
+<style>
+   .form {
+      display: inline-grid;
+      gap: 1.25rem 0;
+   }
+
+   .incorrect-login {
+      color: red;
+   }
+
+   .incorrect-login_blue {
+      color: blue;
+   }
+</style>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <div class="form">
+               <label class="label">
+                  Login
+                  <input type="email" class="input" v-model="userLogin">
+               </label>
+               <label class="label">
+                  Password
+                  <input type="password" class="input" v-model="userPassword">
+               </label>
+               <button type="button" class="button" @click="checkLogin">Go</button>
+               <img src="img/emoji.png" alt="Emoji" v-if="isCorrect">
+               <div v-else-if="isChecked" :class="resultColor">Неправильний логін або пароль</div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const loginsList = [{ login: 'ban@na3.com', password: 'qwert' }, { login: 'user@pro.com', password: '12345' }, { login: 'noban@na.com', password: 'qwerty' }]
+
+      const app = createApp({
+         data() {
+            return {
+               isCorrect: false,
+               resultColor: 'incorrect-login',
+               userLogin: null,
+               userPassword: null,
+               isChecked: false
+            }
+         },
+
+         methods: {
+            checkLogin() {
+               console.log(String(this.userLogin).toLowerCase() === 'іван');
+               const founded = loginsList.find(elem => elem.login === this.userLogin && elem.password === this.userPassword)
+
+               if (founded !== undefined) {
+                  this.isCorrect = true
+               } else if (String(this.userLogin).toLowerCase() === 'іван') {
+                  this.isCorrect = false
+                  this.isChecked = true
+                  this.resultColor = 'incorrect-login_blue'
+               } else {
+                  this.isCorrect = false
+                  this.isChecked = true
+                  this.resultColor = 'incorrect-login'
+               }
+            }
+         },
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

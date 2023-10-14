@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 5</title>
+</head>
+
+<style>
+   .site:not(:last-child) {
+      margin-bottom: 2.5rem;
+   }
+
+   .site__header {
+      display: inline-block;
+   }
+
+   .site__header:hover .site__title {
+      color: #66c875;
+   }
+
+   .site__header:not(:last-child) {
+      margin-bottom: 1rem;
+   }
+
+   .site__info {
+      display: inline-flex;
+      align-items: center;
+      gap: 0 1.25rem;
+   }
+
+   .site__info:not(:last-child) {
+      margin-bottom: 1rem;
+   }
+
+   .site__icon {
+      width: 2.25rem;
+      height: 2.25rem;
+      object-fit: cover;
+      border-radius: 50%;
+   }
+
+   .site__block {
+      display: inline-grid;
+      gap: 0.5rem;
+   }
+
+   .site__title {
+      font-size: 1.75rem;
+      line-height: 1.25;
+      transition: color 0.3s ease 0s;
+   }
+</style>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <div class="site" v-for="site in sitesList" :key="site.id">
+               <a :href="site.link" class="site__header" target="_blank">
+                  <div class="site__info">
+                     <img :src="site.iconSrc" :alt="site.domainName" class="site__icon">
+                     <div class="site__block">
+                        <span>{{site.domainName}}</span>
+                        <cite class="breadcrumbs">{{site.breadcrumbs}}</cite>
+                     </div>
+                  </div>
+                  <h2 class="site__title">{{site.title}}</h2>
+               </a>
+               <p>{{site.description}}</p>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+         data() {
+            return {
+               sitesList: [
+                  {
+                     id: 1,
+                     domainName: 'deepl.com',
+                     iconSrc: 'img/task5/deepl.png',
+                     breadcrumbs: 'https://www.deepl.com > translator',
+                     link: 'https://www.deepl.com/translator',
+                     title: 'DeepL Translate | Найточніший у світі перекладач',
+                     description: 'Миттєво перекладай тексти і цілі документи. Точні переклади як для окремих осіб, так і для команд. Мільйони перекладають із DeepL щодня.',
+                  },
+                  {
+                     id: 2,
+                     domainName: 'Vue.js',
+                     iconSrc: 'img/task5/vue.png',
+                     breadcrumbs: 'https://vuejs.org > essentials',
+                     link: 'https://vuejs.org/guide/essentials/conditional.html',
+                     title: 'Conditional Rendering',
+                     description: 'v-if is "real" conditional rendering because it ensures that event listeners and child components inside the conditional block are properly destroyed and re- ...',
+                  },
+                  {
+                     id: 3,
+                     domainName: 'Vue.js',
+                     iconSrc: 'img/task5/vue.png',
+                     breadcrumbs: 'https://vuejs.org > essentials',
+                     link: 'https://vuejs.org/guide/essentials/conditional.html',
+                     title: 'List Rendering',
+                     description: 'v-for . We can use the v-for directive to render a list of items based on an array. The v-for directive requires a special syntax in the form of item in ...',
+                  },
+               ]
+            }
+         },
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

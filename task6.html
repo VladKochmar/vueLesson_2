@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 6</title>
+</head>
+
+<style>
+   .dish-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+   }
+
+   .dish-list__item {
+      border: 3px solid #66c875;
+      padding: 0.625rem 1rem;
+   }
+
+   .dish-list__item dt {
+      font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+   }
+
+   .dish-list__item dd li:not(:last-child) {
+      margin-bottom: 0.875rem;
+   }
+</style>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <div class="kitchen">
+               <label class="label">
+                  Нова замовлена страва:
+                  <input type="text" class="input" v-model="newDish">
+                  <button type="button" class="button" @click="addDish" :disabled="isEmpty">Додати</button>
+               </label>
+               <dl class="dish-list">
+                  <div class="dish-list__item">
+                     <dt>Очікують на виконання</dt>
+                     <dd>
+                        <ul>
+                           <li v-for="dish in waitingList" :key="dish.id">{{dish.dishName}} <button type="button" class="button" @click="prepareDish(dish)">Готувати</button></li>
+                        </ul>
+                     </dd>
+                  </div>
+                  <div class="dish-list__item">
+                     <dt>Виконуються</dt>
+                     <dd>
+                        <ul>
+                           <li v-for="dish in processingList" :key="dish.id">{{dish.dishName}} <button type="button" class="button" @click="cookDish(dish)">Приготовлено</button></li>
+                        </ul>
+                     </dd>
+                  </div>
+                  <div class="dish-list__item">
+                     <dt>Готові до виносу</dt>
+                     <dd>
+                        <ul>
+                           <li v-for="dish in completedList" :key="dish.id">{{dish.dishName}} <button type="button" class="button" @click="serveDish(dish)">Подано</button></li>
+                        </ul>
+                     </dd>
+                  </div>
+               </dl>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+         data() {
+            return {
+               newDish: null,
+               waitingList: [],
+               processingList: [],
+               completedList: []
+            }
+         },
+
+         methods: {
+            addDish() {
+               const dishID = new Date().getTime()
+               this.waitingList.push({ id: dishID, dishName: this.newDish })
+               this.newDish = null
+            },
+
+            prepareDish(removedDish) {
+               this.waitingList = this.waitingList.filter(currentDish => currentDish !== removedDish)
+               this.processingList.push(removedDish)
+            },
+
+            cookDish(removedDish) {
+               this.processingList = this.processingList.filter(currentDish => currentDish !== removedDish)
+               this.completedList.push(removedDish)
+               console.log(this.processingList);
+            },
+
+            serveDish(removedDish) {
+               this.completedList = this.completedList.filter(currentDish => currentDish !== removedDish)
+            }
+         },
+
+         computed: {
+            isEmpty() {
+               return this.newDish === '' || this.newDish === null
+            }
+         }
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>
